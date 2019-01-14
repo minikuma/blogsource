@@ -3,13 +3,13 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Drills
-subtitle: 개발 일지
+title: Drills'Blog
+subtitle: 초보 블로거의 개발 일지
 description:
 keywords:
 author: minikuma
-language:
-timezone: Asia/ko
+language: ko
+timezone: asia/seoul
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'

@@ -82,4 +82,4 @@ deploy:
   repo: https://github.com/minikuma/minikuma.github.io.git
   branch: master
 
-disqus_shortname: minikuma
+disqus_username: https-minikuma-github-io

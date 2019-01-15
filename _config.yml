@@ -81,3 +81,5 @@ deploy:
   type: git
   repo: https://github.com/minikuma/minikuma.github.io.git
   branch: master
+
+disqus_shortname: minikuma

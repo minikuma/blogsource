@@ -1,5 +1,8 @@
 ---
 title: '[java] Servlet'
+tags:
+- java
+- servlet
 ---
 이번 포스팅은 Servlet에 대해 알아보려고 한다. 필자도 Servlet을 WAS(Web Application Server) 혹은 Container 등으로 막연하게 알고 있었다. 이번 기회에 Servlet에 대해 정리를 해 보려고 한다.   
 

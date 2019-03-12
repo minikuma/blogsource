@@ -1,7 +1,6 @@
 ---
 title: '[Effective-java] Static Factory Method'
-tags:
-- java
+tags: [java]
 ---
 
 이번 포스팅은 Effective-java 3rd(Joshua Bloch)를 읽고 정리한 내용이다. Effective-java의 구성은 Java를 구현할 때 생각해 봐야 할 규칙들을 정의하고 해당 규칙을 적용했을 때의 장점들을 정리하고 있다. 결국 Java에 대한 여러 가지 관점을 제시한 책이다. 필자는 책에서 소개하는 여러 가지 관점들을 정리하면서 포스팅할 예정이다.

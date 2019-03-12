@@ -1,8 +1,6 @@
 ---
 title: '[java] Servlet'
-tags:
-- java
-- servlet
+tags: [java, servlet]
 ---
 이번 포스팅은 Servlet에 대해 알아보려고 한다. 필자도 Servlet을 WAS(Web Application Server) 혹은 Container 등으로 막연하게 알고 있었다. 이번 기회에 Servlet에 대해 정리를 해 보려고 한다.   
 
@@ -90,7 +88,7 @@ http://localhost:8080/
 
 ### Servlet Concurrency   
 ![](https://user-images.githubusercontent.com/20740884/51014652-3a688f80-15ac-11e9-85c6-139c57b0b540.JPG)
-보통 Web Application은 Multi-Thread 환경이고, 여러 Thread는 하나의 Servlet을 공유할 수 있기 때문에 병행성 제어(Concurrency Control)가 필요하다. 위 그림에서 보면 static, member 변수는 공유자원이기 때문에 `service()` 메소드안에서 사용 시에 상호 배제가 필요하다. 상호 배제란 공유를 하면 안되는 자원(Resource)의 동시 사용을 피하는 방법이다. 추후에 상호 배제에 대한 내용을 공부하면서 푸가 포스팅을 할 예정이다.      
+보통 Web Application은 Multi-Thread 환경이고, 여러 Thread는 하나의 Servlet을 공유할 수 있기 때문에 병행성 제어(Concurrency Control)가 필요하다. 위 그림에서 보면 static, member 변수는 공유자원이기 때문에 `service()` 메소드안에서 사용 시에 상호 배제가 필요하다. 상호 배제란 공유를 하면 안되는 자원(Resource)의 동시 사용을 피하는 방법이다. 추후에 상호 배제에 대한 내용을 공부하면서 추가 포스팅을 할 예정이다.      
 
 ### Apply Servlet Annotation
 기존 web.xml에서 정의한 servlet class, URL Mapping을 아래와 같이 `@WebServlet` Annotation으로도 구현이 가능하다.   

@@ -1,5 +1,5 @@
 ---
-title: '[Java] ArrayList 다시 보기'
+title: '[Java] ArrayList는 무엇인가?'
 tags: [java]
 ---
 
@@ -67,11 +67,12 @@ java 1.8에 ArrayList API를 보면 위와 같이 Default Capacity가 `10`으로
     1010 (10의 이진수)의 오른쪽으로 1만큼 이동 -> 0101 (5)                   
 ```   
 결국 일반화를 하면, `newCapacity = oldCapacity + (oldCapacity / 2)`로 나타낼 수 있다.   
-참고적으로 `elementData = Arrays.copyOf(elementData, newCapacity);` 이 코딩을 보면 자동 증가 배열은 기존 배열을 복사한 새로운 배열임을 알 수 있다.    
+참고적으로 `elementData = Arrays.copyOf(elementData, newCapacity);` 이 코딩을 보면 자동 증가 배열은 기존 배열을 복사한 새로운 배열임을 알 수 있다. (새로 할당된 배열에 이전 배열 요소를 옮기는 비용이 추가 됨을 의미)    
 
 ### Doubling 전략   
 
-새로운 배열을 만드는 전략을 Doubling으로 가지고 가도 동일한 효과를 줄 수 있을까? 사실 자바 버전에 따라 newCapacity를 구하는 전략은 다를 수 있다. 그렇다면 Doubling 전략은 무엇인가? 말 그대로 자동 증가 시점에 배열의 크기를 2배로 늘리는 전략이다. 위 `grow` 메소드도 Doubling 전략을 사용한다면 `int newCapacity = oldCapacity * 2;`로 수정이 된다. 결국 Doubling, `grow` 메소드에서 사용한 Half 모두 상수배만큼 배열을 자동으로 조정해 주는 거라 일반화 할 수 있다. 여기서 한 가지 문제가 발생한다. ArrayList에서는 임의의 접근인 경우 O(1)의 성능을 보여 준다. 하지만 위에서 언급했듯이 ArrayList는 배열의 크기를 동적으로 조정할 수 있다. 만약 동적으로 할당된 상태에서도 기존 처럼 O(1)의 성능을 보여 줄 수 있을까? 이를 검증하기 위해서는 `상환입력시간`이라는 개념이 필요하다. 이 포스팅에서는 `상환입력시간`이라는 개념에 대해서는 깊에 다루지 않는다. 간략하게 `상환입력시간`은 Best Case와 Worst Case를 모두 고려한 `평균적인 성능치`정도로 생각하자. 여기서 Best Case는 O(1)이다. Worst Case는 배열의 길이(N)에 영향을 받음으로 O(N)으로 나타낼 수 있다. 이제 `평균적인 성능치`를 단계 별로 생각하며 구해 보면 아래와 같이 나타낼 수 있다.    
+새로운 배열을 만드는 전략을 Doubling으로 가지고 가도 동일한 효과를 줄 수 있을까? 사실 자바 버전에 따라 newCapacity를 구하는 전략은 다를 수 있다. 그렇다면 Doubling 전략은 무엇인가? 말 그대로 자동 증가 시점에 배열의 크기를 2배로 늘리는 전략이다. 위 `grow` 메소드도 Doubling 전략을 사용한다면 `int newCapacity = oldCapacity * 2;`로 수정이 된다. 결국 Doubling, `grow` 메소드에서 사용한 Half, 모두 상수배만큼 배열을 자동으로 조정해 주는 거라 일반화 할 수 있다. 여기서 한 가지 문제가 발생한다. ArrayList에서는 임의의 접근인 경우 O(1)의 성능을 보여 준다. 하지만 위에서 언급했듯이 ArrayList는 배열의 크기를 동적으로 조정할 수 있다. 만약 동적으로 할당된 상태에서도 기존 처럼 O(1)의 성능을 보여 줄 수 있을까? 이를 검증하기 위해서는 `상환입력시간`이라는 개념이 필요하다. 이 포스팅에서는 `상환입력시간`이라는 개념에 대해서는 깊에 다루지 않는다. 간략하게 `상환입력시간`은 Best Case와 Worst Case를 모두 고려한 `평균적인 성능치`정도로 생각하자. 여기서 Best Case는 O(1)이다. Worst Case는 배열의 길이(N)에 영향을 받음으로 O(N)으로 나타낼 수 있다. 이제 `평균적인 성능치`를 단계 별로 구해 보면 아래와 같이 나타낼 수 있다.    
+
 ``` java   
      현재 상황에서 배열의 크기 조정 후 원소를 복사하는 데 드는 비용: N * t
      그 전 상황에서 배열의 크기 조정 후 원소를 복사하는 데 드는 비용: N/2 * t
@@ -88,7 +89,21 @@ API 문서를 보면, **ArrayList는 synchoronized가 아니다.** 만약 멀티
 
 
 ### Fail-Fast   
+ArrayList 클래스도 Collection 클래스의 특징을 모두 가지고 있다. Collection 객체는 저장된 객체들에 대한 순차적인 접근을 제공하는데, 순차적인 접근이 끝나기 전에 Collection 구조적인 변경(객체의 추가 혹은 삭제)이 발생하게 되면, 순차적인 접근이 실패(ConcurrentModificationException)하게 된다. 이것이 Fail-Fast라 부른다.  
 
+``` java   
+public class FailFast {
+    public static void main(String[] args) {
+        ArrayList<Integer> lists = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+        Iterator<Integer> iter = lists.iterator();
+        while (iter.hasNext()) {
+            Integer number=  iter.next();
+            lists.add(50);  // collection 구조 변경
+            System.out.println(number);
+        }
+   }
+}
+```   
 
 ### 나의 ArrayList 만들기   
 이제 제공해 준 ArrayList가 아닌 나만의 ArrayList를 구현해 보자. 기본적인 내용은 java 1.8 API를 참고 하였다.   
@@ -202,3 +217,5 @@ public class MyArrayList<E> {
 }
 ```   
 이번 포스팅에서는 나만의 ArrayList를 구현해 보는 것이 목적이라 위에서 언급했던 Multithreading은 테스트는 별도로 진행해 보지 않았다. ArrayList API가 가지고 있는 핵심적인 특징들을 살펴 보고 그 특징들을 가지고 API를 실제로 구현해 보았다.    
+
+참고: https://daehwann.wordpress.com/2016/08/26/java-arraylist/    
